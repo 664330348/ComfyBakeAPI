@@ -6,7 +6,7 @@ import com.revature.comfybake.User.Role.UserRole;
 import javax.persistence.*;
 
 @Entity
-@Table(name="comfy_bake_users")
+@Table(name="users")
 public class User {
     @Id
     @Column(name="user_id")

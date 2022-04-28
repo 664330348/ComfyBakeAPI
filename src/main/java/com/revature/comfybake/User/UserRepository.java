@@ -10,7 +10,7 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends CrudRepository<User, String> {
     @Query(
-            value = "SELECT * from comfy_bake.comfy_bake_users where username = ?1",
+            value = "SELECT * from comfy_bake.users where username = ?1",
             nativeQuery = true
     )
     User getUserByUsername(String username);
