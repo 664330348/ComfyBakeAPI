@@ -4,6 +4,7 @@ import com.revature.comfybake.User.Profile.UserProfile;
 import com.revature.comfybake.User.Profile.UserProfileRepository;
 import com.revature.comfybake.User.Role.UserRole;
 import com.revature.comfybake.User.Role.UserRoleRepository;
+import com.revature.comfybake.User.dtos.LoginRequest;
 import com.revature.comfybake.User.dtos.NewUserRequest;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,7 +55,16 @@ public class UserService {
         return  newUser;
     }
 
+    //Login
+    public User login(LoginRequest loginRequest){
 
+        String username = loginRequest.getUsername();
+        String password = loginRequest.getPassword();
+
+        User user = userRepository.getUserByUsername(username);
+        System.out.println("here:   " + user.getUserRole());
+        return user;
+    }
 
 
     public boolean isEmailValid(String email) {

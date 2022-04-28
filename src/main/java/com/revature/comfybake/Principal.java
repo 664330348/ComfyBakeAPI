@@ -1,5 +1,7 @@
 package com.revature.comfybake;
 
+import com.revature.comfybake.User.User;
+
 public class Principal {
     private String userId;
     private String username;
@@ -8,10 +10,10 @@ public class Principal {
     public Principal() {
     }
 
-    public Principal(String userId, String username, String role) {
-        this.userId = userId;
-        this.username = username;
-        this.role = role;
+    public Principal(User user) {
+        this.userId = user.getUserId();
+        this.username = user.getUsername();
+        this.role = user.getUserRole().getRole();
     }
 
     public String getUserId() {
