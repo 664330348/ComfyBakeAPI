@@ -36,7 +36,7 @@ public class TokenService {
         return extractRequesterDetails(token) != null;
     }
 
-    private Principal extractRequesterDetails(String token) {
+    public Principal extractRequesterDetails(String token) {
         try{
             Claims claims = Jwts.parser()
                     .setSigningKey(jwtConfig.getSigningKey())
