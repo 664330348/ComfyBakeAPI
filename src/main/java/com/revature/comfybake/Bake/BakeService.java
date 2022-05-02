@@ -2,6 +2,7 @@ package com.revature.comfybake.Bake;
 
 
 import com.revature.comfybake.Bake.dtos.NewBakeRequest;
+import com.revature.comfybake.Bake.dtos.PurchaseItem;
 import com.revature.comfybake.User.Profile.UserProfile;
 import com.revature.comfybake.User.Profile.UserProfileRepository;
 import com.revature.comfybake.User.User;
@@ -24,12 +25,10 @@ public class BakeService {
         this.userProfileRepository = userProfileRepository;
     }
 
-    //Add a new bake by the baker
-    public void AddBake(NewBakeRequest newBakeRequest, String username){
+    //Baker: Selling baked goods
+    public void addBake(NewBakeRequest newBakeRequest, String username){
         User currentUser = userRepository.getUserByUsername(username);
-        System.out.println(" currentUser  "+currentUser);
         UserProfile currentUserProfile = userProfileRepository.findById(currentUser.getUserProfile().getUserProfileId()).get();
-        System.out.println(" currentUserProfile  "+currentUserProfile);
 
         Bake newbake = new Bake();
         newbake.setBakeId(UUID.randomUUID().toString());
@@ -41,5 +40,20 @@ public class BakeService {
         newbake.setRecipe(newBakeRequest.getRecipe());
         newbake.setUserProfile(currentUserProfile);
         bakeRepository.save(newbake);
+    }
+
+    //Customer: purchase baked goods
+    public void purchaseBakes(PurchaseItem[] purchaseItems, String customerId){
+        double totalPrice = 0;
+
+        for(PurchaseItem purchaseItem : purchaseItems) {
+            Bake bake = bakeRepository.findById(purchaseItem.getBakeId()).get();
+            if (purchaseItem.getQuantity() <= bake.getQuantity()) {
+                totalPrice += purchaseItem.getQuantity() * bake.getPrice();
+                bake.setQuantity(bake.getQuantity() - purchaseItem.getQuantity());
+                bakeRepository.save(bake);
+            }
+        }
+        System.out.println("totalPrice: "+totalPrice);
     }
 }

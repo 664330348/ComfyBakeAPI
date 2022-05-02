@@ -31,7 +31,7 @@ public class Bake {
     private String recipe;
 
     @ManyToOne
-    @JoinColumn(name="user_profile_id", nullable = false, referencedColumnName = "user_profile_id" )
+    @JoinColumn(name="baker_profile_id", nullable = false)
     private UserProfile userProfile;
 
     public Bake() {
