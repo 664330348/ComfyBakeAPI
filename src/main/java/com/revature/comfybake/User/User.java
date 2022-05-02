@@ -2,6 +2,7 @@ package com.revature.comfybake.User;
 
 import com.revature.comfybake.User.Profile.UserProfile;
 import com.revature.comfybake.User.Role.UserRole;
+import com.revature.comfybake.User.Wallet.UserWallet;
 
 import javax.persistence.*;
 
@@ -25,6 +26,10 @@ public class User {
     @OneToOne
     @JoinColumn(name="user_profile_id", nullable = false, unique = true, referencedColumnName = "user_profile_id" )
     private UserProfile userProfile;
+
+    @OneToOne
+    @JoinColumn(name="user_wallet_id", nullable = false, unique = true, referencedColumnName = "user_wallet_id" )
+    private UserWallet userWallet;
 
     public User() {
         super();
@@ -68,5 +73,13 @@ public class User {
 
     public void setUserProfile(UserProfile userProfile) {
         this.userProfile = userProfile;
+    }
+
+    public UserWallet getUserWallet() {
+        return userWallet;
+    }
+
+    public void setUserWallet(UserWallet userWallet) {
+        this.userWallet = userWallet;
     }
 }

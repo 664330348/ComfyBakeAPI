@@ -8,6 +8,8 @@ import com.revature.comfybake.User.Role.UserRole;
 import com.revature.comfybake.User.Role.UserRoleRepository;
 import com.revature.comfybake.User.User;
 import com.revature.comfybake.User.UserRepository;
+import com.revature.comfybake.User.Wallet.UserWallet;
+import com.revature.comfybake.User.Wallet.UserWalletRepository;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -22,13 +24,15 @@ public class DummyDataInserter implements CommandLineRunner{
     private final UserRoleRepository userRoleRepository;
     private final UserProfileRepository userProfileRepository;
     private final BakeRepository bakeRepository;
+    private final UserWalletRepository userWalletRepository;
 
     @Autowired
-    public DummyDataInserter(UserRepository userRepository, UserRoleRepository userRoleRepository, UserProfileRepository userProfileRepository, BakeRepository bakeRepository) {
+    public DummyDataInserter(UserRepository userRepository, UserRoleRepository userRoleRepository, UserProfileRepository userProfileRepository, BakeRepository bakeRepository, UserWalletRepository userWalletRepository) {
         this.userRepository = userRepository;
         this.userRoleRepository = userRoleRepository;
         this.userProfileRepository = userProfileRepository;
         this.bakeRepository = bakeRepository;
+        this.userWalletRepository = userWalletRepository;
     }
 
     @Override
@@ -53,12 +57,17 @@ public class DummyDataInserter implements CommandLineRunner{
         user1Profile.setLastName("LName");
         userProfileRepository.save(user1Profile);
 
+        UserWallet userWallet1 = new UserWallet();
+        userWallet1.setWalletId(UUID.randomUUID().toString());
+        userWalletRepository.save(userWallet1);
+
         User user1 = new User();
         user1.setUserId(UUID.randomUUID().toString());
         user1.setUsername("user1");
         user1.setPassword(BCrypt.hashpw("123456", BCrypt.gensalt(10)));
         user1.setUserRole(baker);
         user1.setUserProfile(user1Profile);
+        user1.setUserWallet(userWallet1);
         userRepository.save(user1);
 
         Bake bake1 = new Bake();
