@@ -7,6 +7,8 @@ import com.revature.comfybake.User.Profile.UserProfile;
 import com.revature.comfybake.User.Profile.UserProfileRepository;
 import com.revature.comfybake.User.User;
 import com.revature.comfybake.User.UserRepository;
+import com.revature.comfybake.User.Wallet.UserWallet;
+import com.revature.comfybake.User.Wallet.UserWalletRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,12 +19,14 @@ public class BakeService {
     private BakeRepository bakeRepository;
     private UserRepository userRepository;
     private UserProfileRepository userProfileRepository;
+    private UserWalletRepository userWalletRepository;
 
     @Autowired
-    public BakeService(BakeRepository bakeRepository, UserRepository userRepository, UserProfileRepository userProfileRepository) {
+    public BakeService(BakeRepository bakeRepository, UserRepository userRepository, UserProfileRepository userProfileRepository, UserWalletRepository userWalletRepository) {
         this.bakeRepository = bakeRepository;
         this.userRepository = userRepository;
         this.userProfileRepository = userProfileRepository;
+        this.userWalletRepository = userWalletRepository;
     }
 
     //Baker: Selling baked goods
@@ -45,6 +49,8 @@ public class BakeService {
     //Customer: purchase baked goods
     public void purchaseBakes(PurchaseItem[] purchaseItems, String customerId){
         double totalPrice = 0;
+        User customer = userRepository.getUserByUserId(customerId);
+        UserWallet userWallet = userWalletRepository.getUserWalletByUserWalletId(customer.getUserWallet().getWalletId());
 
         for(PurchaseItem purchaseItem : purchaseItems) {
             Bake bake = bakeRepository.findById(purchaseItem.getBakeId()).get();
@@ -54,6 +60,7 @@ public class BakeService {
                 bakeRepository.save(bake);
             }
         }
-        System.out.println("totalPrice: "+totalPrice);
+        userWallet.setTotalBalance(userWallet.getTotalBalance()-totalPrice);
+        userWalletRepository.save(userWallet);
     }
 }
