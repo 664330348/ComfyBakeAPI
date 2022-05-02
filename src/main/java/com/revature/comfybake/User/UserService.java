@@ -62,7 +62,6 @@ public class UserService {
         String password = loginRequest.getPassword();
 
         User user = userRepository.getUserByUsername(username);
-        System.out.println("here:   " + user.getUserRole());
         return user;
     }
 
