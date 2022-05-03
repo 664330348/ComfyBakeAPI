@@ -1,9 +1,13 @@
 package com.revature.comfybake.User;
 
+import com.revature.comfybake.User.Orders.OrderHistory;
+import com.revature.comfybake.User.Orders.OrderHistoryRepository;
 import com.revature.comfybake.User.Profile.UserProfile;
 import com.revature.comfybake.User.Profile.UserProfileRepository;
 import com.revature.comfybake.User.Role.UserRole;
 import com.revature.comfybake.User.Role.UserRoleRepository;
+import com.revature.comfybake.User.Wallet.UserWallet;
+import com.revature.comfybake.User.Wallet.UserWalletRepository;
 import com.revature.comfybake.User.dtos.LoginRequest;
 import com.revature.comfybake.User.dtos.NewUserRequest;
 import org.mindrot.jbcrypt.BCrypt;
@@ -17,12 +21,16 @@ public class UserService {
     private  UserRepository userRepository;
     private  UserRoleRepository userRoleRepository;
     private  UserProfileRepository userProfileRepository;
+    private  UserWalletRepository userWalletRepository;
+    private  OrderHistoryRepository orderHistoryRepository;
 
     @Autowired
-    public UserService(UserRepository userRepository, UserRoleRepository userRoleRepository, UserProfileRepository userProfileRepository) {
+    public UserService(UserRepository userRepository, UserRoleRepository userRoleRepository, UserProfileRepository userProfileRepository, UserWalletRepository userWalletRepository, OrderHistoryRepository orderHistoryRepository) {
         this.userRepository = userRepository;
         this.userRoleRepository = userRoleRepository;
         this.userProfileRepository = userProfileRepository;
+        this.userWalletRepository = userWalletRepository;
+        this.orderHistoryRepository = orderHistoryRepository;
     }
 
     //Register a new user as a customer
@@ -41,8 +49,15 @@ public class UserService {
         userProfile.setUserProfileId(UUID.randomUUID().toString());
         userProfile.setFirstName(newUserRequest.getFirstName());
         userProfile.setLastName(newUserRequest.getLastName());
-
         userProfileRepository.save(userProfile);
+
+        UserWallet userWallet = new UserWallet();
+        userWallet.setWalletId(UUID.randomUUID().toString());
+        userWalletRepository.save(userWallet);
+
+        OrderHistory orderHistory = new OrderHistory();
+        orderHistory.setOrderHistoryItem(UUID.randomUUID().toString());
+        orderHistoryRepository.save(orderHistory);
 
         User newUser = new User();
         newUser.setUserId(UUID.randomUUID().toString());
@@ -50,6 +65,8 @@ public class UserService {
         newUser.setPassword(BCrypt.hashpw(newUserRequest.getPassword(), BCrypt.gensalt(10)));
         newUser.setUserRole(userRole);
         newUser.setUserProfile(userProfile);
+        newUser.setUserWallet(userWallet);
+        newUser.setOrderHistory(orderHistory);
         userRepository.save(newUser);
 
         return  newUser;

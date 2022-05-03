@@ -2,6 +2,10 @@ package com.revature.comfybake;
 
 import com.revature.comfybake.Bake.Bake;
 import com.revature.comfybake.Bake.BakeRepository;
+import com.revature.comfybake.User.Orders.OrderHistory;
+import com.revature.comfybake.User.Orders.OrderHistoryRepository;
+import com.revature.comfybake.User.Orders.OrderItem;
+import com.revature.comfybake.User.Orders.OrderItemRepository;
 import com.revature.comfybake.User.Profile.UserProfile;
 import com.revature.comfybake.User.Profile.UserProfileRepository;
 import com.revature.comfybake.User.Role.UserRole;
@@ -16,6 +20,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Component
@@ -25,14 +30,18 @@ public class DummyDataInserter implements CommandLineRunner{
     private final UserProfileRepository userProfileRepository;
     private final BakeRepository bakeRepository;
     private final UserWalletRepository userWalletRepository;
+    private final OrderHistoryRepository orderHistoryRepository;
+    private final OrderItemRepository orderItemRepository;
 
     @Autowired
-    public DummyDataInserter(UserRepository userRepository, UserRoleRepository userRoleRepository, UserProfileRepository userProfileRepository, BakeRepository bakeRepository, UserWalletRepository userWalletRepository) {
+    public DummyDataInserter(UserRepository userRepository, UserRoleRepository userRoleRepository, UserProfileRepository userProfileRepository, BakeRepository bakeRepository, UserWalletRepository userWalletRepository, OrderHistoryRepository orderHistoryRepository, OrderItemRepository orderItemRepository) {
         this.userRepository = userRepository;
         this.userRoleRepository = userRoleRepository;
         this.userProfileRepository = userProfileRepository;
         this.bakeRepository = bakeRepository;
         this.userWalletRepository = userWalletRepository;
+        this.orderHistoryRepository = orderHistoryRepository;
+        this.orderItemRepository = orderItemRepository;
     }
 
     @Override
@@ -61,6 +70,11 @@ public class DummyDataInserter implements CommandLineRunner{
         userWallet1.setWalletId(UUID.randomUUID().toString());
         userWalletRepository.save(userWallet1);
 
+        OrderHistory orderHistory = new OrderHistory();
+        String orderHistoryId = UUID.randomUUID().toString();
+        orderHistory.setOrderHistoryItem(orderHistoryId);
+        orderHistoryRepository.save(orderHistory);
+
         User user1 = new User();
         user1.setUserId(UUID.randomUUID().toString());
         user1.setUsername("user1");
@@ -68,6 +82,7 @@ public class DummyDataInserter implements CommandLineRunner{
         user1.setUserRole(baker);
         user1.setUserProfile(user1Profile);
         user1.setUserWallet(userWallet1);
+        user1.setOrderHistory(orderHistory);
         userRepository.save(user1);
 
         Bake bake1 = new Bake();
@@ -92,6 +107,17 @@ public class DummyDataInserter implements CommandLineRunner{
         bake2.setUserProfile(user1Profile);
         bakeRepository.save(bake2);
 
+        String orderGroupId = UUID.randomUUID().toString();
+        OrderItem orderItem = new OrderItem();
+        orderItem.setOrderItemId(UUID.randomUUID().toString());
+        orderItem.setItemName("bake1");
+        orderItem.setItemPrice(18.99);
+        orderItem.setQuantity(3);
+        orderItem.setTotalCost(56.97);
+        orderItem.setCompletedTime(LocalDateTime.now());
+        orderItem.setOrderHistoryId(orderHistory);
+        orderItem.setGroupId(orderGroupId);
+        orderItemRepository.save(orderItem);
     }
 
 }

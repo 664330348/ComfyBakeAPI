@@ -1,5 +1,6 @@
 package com.revature.comfybake.User;
 
+import com.revature.comfybake.User.Orders.OrderHistory;
 import com.revature.comfybake.User.Profile.UserProfile;
 import com.revature.comfybake.User.Role.UserRole;
 import com.revature.comfybake.User.Wallet.UserWallet;
@@ -24,12 +25,16 @@ public class User {
     private UserRole userRole;
 
     @OneToOne
-    @JoinColumn(name="user_profile_id", nullable = false, unique = true, referencedColumnName = "user_profile_id" )
+    @JoinColumn(name="user_profile_id", nullable = false, unique = true)
     private UserProfile userProfile;
 
     @OneToOne
-    @JoinColumn(name="user_wallet_id", nullable = false, unique = true, referencedColumnName = "user_wallet_id" )
+    @JoinColumn(name="user_wallet_id", nullable = false, unique = true)
     private UserWallet userWallet;
+
+    @OneToOne
+    @JoinColumn(name="order_history_id", nullable = false, unique = true)
+    private OrderHistory orderHistory;
 
     public User() {
         super();
@@ -81,5 +86,13 @@ public class User {
 
     public void setUserWallet(UserWallet userWallet) {
         this.userWallet = userWallet;
+    }
+
+    public OrderHistory getOrderHistory() {
+        return orderHistory;
+    }
+
+    public void setOrderHistory(OrderHistory orderHistory) {
+        this.orderHistory = orderHistory;
     }
 }
