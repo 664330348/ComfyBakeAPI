@@ -50,7 +50,6 @@ public class BakeController {
     public HashMap<String, Object>purchaseBakedGoods(@RequestBody PurchaseRequest purchaseRequests, HttpServletRequest request){
         Principal requester = tokenService.extractRequesterDetails(request.getHeader("Authorization"));
         HashMap<String, Object> response = new HashMap<String, Object>();
-        System.out.println("requester.getUserId() "+requester.getUserId());
         bakeService.purchaseBakes(purchaseRequests.getPurchaseItems(), requester.getUserId());
         return response;
     }

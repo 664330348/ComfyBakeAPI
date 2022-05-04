@@ -68,7 +68,8 @@ public class BakeService {
         for(PurchaseItem purchaseItem : purchaseItems) {
             Bake bake = bakeRepository.findById(purchaseItem.getBakeId()).get();
             double cost = purchaseItem.getQuantity() * bake.getPrice();
-            if(userWallet.getTotalBalance() <totalPrice+cost || purchaseItem.getQuantity()>bake.getQuantity()){
+            if(userWallet.getTotalBalance() <totalPrice+cost || purchaseItem.getQuantity()>bake.getQuantity()
+                || purchaseItem.getBakerProfileId().equals(customer.getUserProfile().getUserProfileId())){
                 canPurchase = false;
                 break;
             }
