@@ -107,12 +107,12 @@ public class OrderItem {
         this.completedTime = completedTime;
     }
 
-    public OrderHistory getOrderHistoryId() {
+    public OrderHistory getOrderHistory() {
         return orderHistory;
     }
 
-    public void setOrderHistoryId(OrderHistory orderHistoryId) {
-        this.orderHistory = orderHistoryId;
+    public void setOrderHistory(OrderHistory orderHistory) {
+        this.orderHistory = orderHistory;
     }
 
     public String getGroupId() {

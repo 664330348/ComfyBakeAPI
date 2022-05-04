@@ -115,7 +115,7 @@ public class DummyDataInserter implements CommandLineRunner{
         orderItem.setQuantity(3);
         orderItem.setTotalCost(56.97);
         orderItem.setCompletedTime(LocalDateTime.now());
-        orderItem.setOrderHistoryId(orderHistory);
+        orderItem.setOrderHistory(orderHistory);
         orderItem.setGroupId(orderGroupId);
         orderItemRepository.save(orderItem);
     }
