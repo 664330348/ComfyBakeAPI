@@ -111,6 +111,7 @@ public class DummyDataInserter implements CommandLineRunner{
         OrderItem orderItem = new OrderItem();
         orderItem.setOrderItemId(UUID.randomUUID().toString());
         orderItem.setItemName("bake1");
+        orderItem.setItemImage("imageUrl1");
         orderItem.setItemPrice(18.99);
         orderItem.setQuantity(3);
         orderItem.setTotalCost(56.97);

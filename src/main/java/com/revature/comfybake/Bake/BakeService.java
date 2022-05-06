@@ -3,6 +3,7 @@ package com.revature.comfybake.Bake;
 
 import com.revature.comfybake.Bake.dtos.NewBakeRequest;
 import com.revature.comfybake.Bake.dtos.PurchaseItem;
+import com.revature.comfybake.Principal;
 import com.revature.comfybake.User.Orders.OrderHistory;
 import com.revature.comfybake.User.Orders.OrderHistoryRepository;
 import com.revature.comfybake.User.Orders.OrderItem;
@@ -13,6 +14,8 @@ import com.revature.comfybake.User.User;
 import com.revature.comfybake.User.UserRepository;
 import com.revature.comfybake.User.Wallet.UserWallet;
 import com.revature.comfybake.User.Wallet.UserWalletRepository;
+import com.revature.comfybake.User.dtos.OrderHistoryResponse;
+import com.revature.comfybake.User.dtos.OrderItemResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -86,6 +89,7 @@ public class BakeService {
                 OrderItem orderItem = new OrderItem();
                 orderItem.setOrderItemId(UUID.randomUUID().toString());
                 orderItem.setItemName(bakes.get(i).getBakeName());
+                orderItem.setItemImage(bakes.get(i).getImage());
                 orderItem.setItemPrice(bakes.get(i).getPrice());
                 orderItem.setQuantity(quantities.get(i));
                 orderItem.setTotalCost(totalPrice);
@@ -98,5 +102,32 @@ public class BakeService {
 
         userWallet.setTotalBalance(userWallet.getTotalBalance()-totalPrice);
         userWalletRepository.save(userWallet);
+    }
+
+    //view order history
+    public ArrayList<OrderHistoryResponse> viewOrderHistory(String customerId){
+        User customer = userRepository.getUserByUserId(customerId);
+        OrderItem[] orderItems = orderItemRepository.getOrderItemByOrderHistoryId(customer.getOrderHistory().getOrderHistoryId());
+
+        ArrayList<OrderHistoryResponse> orderHistoryResponses = new ArrayList<>();
+        if(orderItems.length >0){
+            int currentIndex = -1;
+            String currentGroupId = "ZERO";
+
+            for(OrderItem orderItem: orderItems){
+                if(!orderItem.getGroupId().equals(currentGroupId)){
+                    currentGroupId = orderItem.getGroupId();
+                    currentIndex++;
+                    OrderHistoryResponse currentOrderHistoryResponse = new OrderHistoryResponse();
+                    currentOrderHistoryResponse.setCompletedTime(orderItem.getCompletedTime());
+                    currentOrderHistoryResponse.setTotalCost(orderItem.getTotalCost());
+                    orderHistoryResponses.add(currentOrderHistoryResponse);
+                }
+                OrderItemResponse orderItemResponse = new OrderItemResponse(orderItem.getItemName(),
+                        orderItem.getItemImage(), orderItem.getItemPrice(), orderItem.getQuantity());
+                orderHistoryResponses.get(currentIndex).addOrderItemResponses(orderItemResponse);
+            }
+        }
+        return orderHistoryResponses;
     }
 }

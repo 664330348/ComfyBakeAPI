@@ -4,11 +4,13 @@ import com.revature.comfybake.Bake.dtos.NewBakeRequest;
 import com.revature.comfybake.Bake.dtos.PurchaseRequest;
 import com.revature.comfybake.Principal;
 import com.revature.comfybake.Token.TokenService;
+import com.revature.comfybake.User.dtos.OrderHistoryResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 @CrossOrigin
@@ -51,6 +53,16 @@ public class BakeController {
         Principal requester = tokenService.extractRequesterDetails(request.getHeader("Authorization"));
         HashMap<String, Object> response = new HashMap<String, Object>();
         bakeService.purchaseBakes(purchaseRequests.getPurchaseItems(), requester.getUserId());
+        return response;
+    }
+
+    //View Order History
+    @GetMapping(value = "history", produces = "application/json")
+    public HashMap<String, Object> viewOrderHistory(HttpServletRequest request){
+        Principal requester = tokenService.extractRequesterDetails(request.getHeader("Authorization"));
+        HashMap<String, Object> response = new HashMap<String, Object>();
+        ArrayList<OrderHistoryResponse> orderHistoryResponses = bakeService.viewOrderHistory(requester.getUserId());
+        response.put("OrderHistoryResponses",orderHistoryResponses);
         return response;
     }
 }

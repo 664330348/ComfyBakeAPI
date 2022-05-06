@@ -13,7 +13,7 @@ public class OrderItem {
     @Column (name = "item_name")
     private String itemName;
 
-    @Column (name = "item_image")
+    @Column (name = "item_image", columnDefinition = "numeric(4,2)")
     private String itemImage;
 
     @Column (name = "item_price")
@@ -22,7 +22,7 @@ public class OrderItem {
     @Column (name = "quantity")
     private int quantity;
 
-    @Column (name = "total_cost")
+    @Column (name = "total_cost", columnDefinition = "numeric(9,2)")
     private double totalCost;
 
     @Column (name = "completed_time")
@@ -121,5 +121,20 @@ public class OrderItem {
 
     public void setGroupId(String groupId) {
         this.groupId = groupId;
+    }
+
+    @Override
+    public String toString() {
+        return "OrderItem{" +
+                "orderItemId='" + orderItemId + '\'' +
+                ", itemName='" + itemName + '\'' +
+                ", itemImage='" + itemImage + '\'' +
+                ", itemPrice=" + itemPrice +
+                ", quantity=" + quantity +
+                ", totalCost=" + totalCost +
+                ", completedTime=" + completedTime +
+                ", orderHistory=" + orderHistory +
+                ", groupId='" + groupId + '\'' +
+                '}';
     }
 }

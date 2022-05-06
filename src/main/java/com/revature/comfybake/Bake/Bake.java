@@ -21,7 +21,7 @@ public class Bake {
     @Column(name = "described", nullable = false)
     private String described;
 
-    @Column(name = "price", nullable = false)
+    @Column(name = "price", nullable = false , columnDefinition = "numeric(4,2)")
     private double price;
 
     @Column(name = "quantity", nullable = false)
