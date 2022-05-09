@@ -1,46 +1,20 @@
-package com.revature.comfybake.User.Profile;
+package com.revature.comfybake.User.dtos;
 
-import com.revature.comfybake.User.User;
-
-import javax.persistence.*;
-
-@Entity
-@Table(name="user_profiles")
-public class UserProfile {
-    @Id
-    @Column(name="user_profile_id")
-    private String userProfileId;
-
-    @Column(name="first_name", nullable = false)
+public class UpdateProfileRequest {
     private String firstname;
-
-    @Column(name="last_name", nullable = false)
     private String lastname;
-
-    @Column(name="email")
     private String email;
-
-    @Column(name="photo")
     private String photo;
 
-    public UserProfile() {
+    public UpdateProfileRequest() {
         super();
     }
 
-    public UserProfile(String userProfileId, String firstname, String lastname, String email, String photo) {
-        this.userProfileId = userProfileId;
+    public UpdateProfileRequest(String firstname, String lastname, String email, String photo) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
         this.photo = photo;
-    }
-
-    public String getUserProfileId() {
-        return userProfileId;
-    }
-
-    public void setUserProfileId(String userProfileId) {
-        this.userProfileId = userProfileId;
     }
 
     public String getFirstname() {

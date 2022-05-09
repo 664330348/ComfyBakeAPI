@@ -13,7 +13,7 @@ public class OrderItem {
     @Column (name = "item_name")
     private String itemName;
 
-    @Column (name = "item_image", columnDefinition = "numeric(4,2)")
+    @Column (name = "item_image")
     private String itemImage;
 
     @Column (name = "item_price")

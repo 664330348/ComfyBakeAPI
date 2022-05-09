@@ -62,8 +62,8 @@ public class DummyDataInserter implements CommandLineRunner{
 
         UserProfile user1Profile = new UserProfile();
         user1Profile.setUserProfileId(UUID.randomUUID().toString());
-        user1Profile.setFirstName("FName");
-        user1Profile.setLastName("LName");
+        user1Profile.setFirstname("FName");
+        user1Profile.setLastname("LName");
         userProfileRepository.save(user1Profile);
 
         UserWallet userWallet1 = new UserWallet();

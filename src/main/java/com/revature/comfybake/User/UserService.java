@@ -10,6 +10,8 @@ import com.revature.comfybake.User.Wallet.UserWallet;
 import com.revature.comfybake.User.Wallet.UserWalletRepository;
 import com.revature.comfybake.User.dtos.LoginRequest;
 import com.revature.comfybake.User.dtos.NewUserRequest;
+import com.revature.comfybake.User.dtos.ProfileResponse;
+import com.revature.comfybake.User.dtos.UpdateProfileRequest;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,8 +49,8 @@ public class UserService {
         UserRole userRole = userRoleRepository.getUserRoleByRole("Customer").get();
         UserProfile  userProfile = new UserProfile();
         userProfile.setUserProfileId(UUID.randomUUID().toString());
-        userProfile.setFirstName(newUserRequest.getFirstName());
-        userProfile.setLastName(newUserRequest.getLastName());
+        userProfile.setFirstname(newUserRequest.getFirstName());
+        userProfile.setLastname(newUserRequest.getLastName());
         userProfileRepository.save(userProfile);
 
         UserWallet userWallet = new UserWallet();
@@ -82,6 +84,43 @@ public class UserService {
         return user;
     }
 
+    //View User Profile
+    public ProfileResponse viewUserProfile(String userId){
+        User currentUser = userRepository.getUserByUserId(userId);
+        UserProfile userProfile = userProfileRepository.
+                findById(currentUser.getUserProfile().getUserProfileId()).get();
+
+        ProfileResponse currentUserProfile = new ProfileResponse();
+        currentUserProfile.setFirstname(userProfile.getFirstname());
+        currentUserProfile.setLastname(userProfile.getLastname());
+        if(userProfile.getEmail() != null){
+            currentUserProfile.setEmail(userProfile.getEmail());
+        }
+        if(userProfile.getPhoto() != null){
+            currentUserProfile.setPhoto(userProfile.getPhoto());
+        }
+        return  currentUserProfile;
+    }
+
+    //Update User Profile
+    public void updateUserProfile(String userId, UpdateProfileRequest updateProfileRequest){
+        User currentUser = userRepository.getUserByUserId(userId);
+        UserProfile userProfile = userProfileRepository.
+                findById(currentUser.getUserProfile().getUserProfileId()).get();
+        if(updateProfileRequest.getFirstname() != null){
+            userProfile.setFirstname(updateProfileRequest.getFirstname());
+        }
+        if(updateProfileRequest.getLastname() != null){
+            userProfile.setLastname(updateProfileRequest.getLastname());
+        }
+        if(updateProfileRequest.getEmail() != null){
+            userProfile.setEmail(updateProfileRequest.getEmail());
+        }
+        if(updateProfileRequest.getPhoto() != null){
+            userProfile.setPhoto(updateProfileRequest.getPhoto());
+        }
+        userProfileRepository.save(userProfile);
+    }
 
     public boolean isEmailValid(String email) {
         return email.matches("^[^@\\s]+@[^@\\s.]+\\.[^@.\\s]+$");

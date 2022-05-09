@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-@CrossOrigin
+@CrossOrigin(exposedHeaders = "authorization")
 @RestController
 @RequestMapping("/baked-goods")
 public class BakeController {
