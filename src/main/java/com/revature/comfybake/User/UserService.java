@@ -122,6 +122,15 @@ public class UserService {
         userProfileRepository.save(userProfile);
     }
 
+    //View User Wallet
+    public double viewWallet(String userId){
+        User currentUser = userRepository.getUserByUserId(userId);
+        UserWallet userWallet = userWalletRepository.findById(currentUser.getUserWallet().getWalletId()).get();
+
+        return userWallet.getTotalBalance();
+    }
+
+
     public boolean isEmailValid(String email) {
         return email.matches("^[^@\\s]+@[^@\\s.]+\\.[^@.\\s]+$");
     }

@@ -79,4 +79,15 @@ public class UserController {
         response.put("status: ", "update");
         return response;
     }
+
+    //View User Wallet
+    @CrossOrigin(exposedHeaders = "authorization")
+    @GetMapping(value = "wallet",produces = "application/json")
+    public HashMap<String, Object> viewWallet(HttpServletRequest request){
+        Principal requester = tokenService.extractRequesterDetails(request.getHeader("Authorization"));
+        HashMap<String, Object> response = new HashMap<String, Object>();
+        double walletBalance = userService.viewWallet(requester.getUserId());
+        response.put("wallet balance: ", walletBalance);
+        return response;
+    }
 }
