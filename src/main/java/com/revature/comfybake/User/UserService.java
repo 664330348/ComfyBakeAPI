@@ -12,6 +12,7 @@ import com.revature.comfybake.User.dtos.LoginRequest;
 import com.revature.comfybake.User.dtos.NewUserRequest;
 import com.revature.comfybake.User.dtos.ProfileResponse;
 import com.revature.comfybake.User.dtos.UpdateProfileRequest;
+import com.revature.comfybake.exceptions.AuthenticationException;
 import com.revature.comfybake.exceptions.InvalidRequestException;
 import com.revature.comfybake.exceptions.ResourceConflictException;
 import org.mindrot.jbcrypt.BCrypt;
@@ -45,10 +46,7 @@ public class UserService {
             throw new InvalidRequestException("Invalid Password!");
         }else if (newUserRequest.getEmail()!=null && isEmailValid(newUserRequest.getEmail())){
             throw new InvalidRequestException("Invalid Email!");
-        }
-
-        boolean usernameAvailable = isUsernameAvailable(newUserRequest.getUsername());
-        if(!usernameAvailable){
+        } else if(!isUsernameAvailable(newUserRequest.getUsername())){
             throw new ResourceConflictException("The username are already taken by other users");
         }
 
@@ -85,11 +83,19 @@ public class UserService {
 
     //Login
     public User login(LoginRequest loginRequest){
+        if(!isUsernameValid(loginRequest.getUsername())){
+            throw new InvalidRequestException("Invalid Username!");
+        }else if (!isPasswordValid(loginRequest.getPassword())) {
+            throw new InvalidRequestException("Invalid Password!");
+        }else if(!isUserPresent(loginRequest.getUsername())){
+            throw new InvalidRequestException("No Users Found!");
+        }
 
-        String username = loginRequest.getUsername();
-        String password = loginRequest.getPassword();
+        User user = userRepository.getUserByUsername(loginRequest.getUsername());
+        if(!BCrypt.checkpw(loginRequest.getPassword(), user.getPassword())){
+            throw new InvalidRequestException("Wrong Password!");
+        }
 
-        User user = userRepository.getUserByUsername(username);
         return user;
     }
 
@@ -156,6 +162,11 @@ public class UserService {
     public boolean isUsernameAvailable(String username) {
         if(userRepository.getUserByUsername(username) == null) return  true;
         return false;
+    }
+
+    public boolean isUserPresent(String username){
+        if(userRepository.getUserByUsername(username) == null) return  false;
+        return true;
     }
 
 
