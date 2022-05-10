@@ -77,8 +77,8 @@ public class DummyDataInserter implements CommandLineRunner{
 
         User user1 = new User();
         user1.setUserId(UUID.randomUUID().toString());
-        user1.setUsername("user1");
-        user1.setPassword(BCrypt.hashpw("123456", BCrypt.gensalt(10)));
+        user1.setUsername("user1user1");
+        user1.setPassword(BCrypt.hashpw("Revature?123", BCrypt.gensalt(10)));
         user1.setUserRole(baker);
         user1.setUserProfile(user1Profile);
         user1.setUserWallet(userWallet1);
