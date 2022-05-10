@@ -12,6 +12,8 @@ import com.revature.comfybake.User.dtos.LoginRequest;
 import com.revature.comfybake.User.dtos.NewUserRequest;
 import com.revature.comfybake.User.dtos.ProfileResponse;
 import com.revature.comfybake.User.dtos.UpdateProfileRequest;
+import com.revature.comfybake.exceptions.InvalidRequestException;
+import com.revature.comfybake.exceptions.ResourceConflictException;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,20 +39,27 @@ public class UserService {
 
     //Register a new user as a customer
     public User register(NewUserRequest newUserRequest){
-        //boolean usernameAvailable = isUsernameAvailable(newUserRequest.getUsername());
+        if(!isUsernameValid(newUserRequest.getUsername())){
+            throw new InvalidRequestException("Invalid Username!");
+        }else if (!isPasswordValid(newUserRequest.getPassword())){
+            throw new InvalidRequestException("Invalid Password!");
+        }else if (newUserRequest.getEmail()!=null && isEmailValid(newUserRequest.getEmail())){
+            throw new InvalidRequestException("Invalid Email!");
+        }
 
+        boolean usernameAvailable = isUsernameAvailable(newUserRequest.getUsername());
+        if(!usernameAvailable){
+            throw new ResourceConflictException("The username are already taken by other users");
+        }
 
-        /*if (!usernameAvailable || !emailAvailable) {
-            String msg = "The values provided for the following fields are already taken by other users: ";
-            if (!usernameAvailable) msg += "username ";
-            if (!emailAvailable) msg += "email";
-            throw new RuntimeException(msg);
-        }*/
         UserRole userRole = userRoleRepository.getUserRoleByRole("Customer").get();
         UserProfile  userProfile = new UserProfile();
         userProfile.setUserProfileId(UUID.randomUUID().toString());
         userProfile.setFirstname(newUserRequest.getFirstName());
         userProfile.setLastname(newUserRequest.getLastName());
+        if(newUserRequest.getEmail()!=null){
+            userProfile.setEmail(newUserRequest.getEmail());
+        }
         userProfileRepository.save(userProfile);
 
         UserWallet userWallet = new UserWallet();
@@ -144,11 +153,10 @@ public class UserService {
         return password.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$");
     }
 
-    /*public boolean isUsernameAvailable(String username) {
-        return !userRepository.getUserByUsername(username).isPresent();
-    }*/
+    public boolean isUsernameAvailable(String username) {
+        if(userRepository.getUserByUsername(username) == null) return  true;
+        return false;
+    }
 
-    /*public boolean isEmailAvailable(String email) {
-        return userRepository.getUserByEmail(email) == null;
-    }*/
+
 }

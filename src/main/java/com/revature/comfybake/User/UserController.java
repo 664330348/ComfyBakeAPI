@@ -2,17 +2,21 @@ package com.revature.comfybake.User;
 
 import com.revature.comfybake.Principal;
 import com.revature.comfybake.Token.TokenService;
-import com.revature.comfybake.User.Profile.UserProfileRepository;
 import com.revature.comfybake.User.dtos.LoginRequest;
 import com.revature.comfybake.User.dtos.NewUserRequest;
 import com.revature.comfybake.User.dtos.ProfileResponse;
 import com.revature.comfybake.User.dtos.UpdateProfileRequest;
+import com.revature.comfybake.exceptions.AuthenticationException;
+import com.revature.comfybake.exceptions.ForbiddenException;
+import com.revature.comfybake.exceptions.InvalidRequestException;
+import com.revature.comfybake.exceptions.ResourceConflictException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 
 @CrossOrigin
@@ -89,5 +93,49 @@ public class UserController {
         double walletBalance = userService.viewWallet(requester.getUserId());
         response.put("wallet balance: ", walletBalance);
         return response;
+    }
+
+
+    //-----------------------------------------------------------------------
+    //Exceptions
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public HashMap<String, Object> handleInvalidRequests(InvalidRequestException e) {
+        HashMap<String, Object> responseBody = new HashMap<>();
+        responseBody.put("status", 400);
+        responseBody.put("message", e.getMessage());
+        responseBody.put("timestamp", LocalDateTime.now());
+        return responseBody;
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public HashMap<String, Object> handleAuthenticationException(AuthenticationException e) {
+        HashMap<String, Object> responseBody = new HashMap<>();
+        responseBody.put("status", 401);
+        responseBody.put("message", e.getMessage());
+        responseBody.put("timestamp", LocalDateTime.now());
+        return responseBody;
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public HashMap<String, Object> handleForbiddenException(ForbiddenException e) {
+        HashMap<String, Object> responseBody = new HashMap<>();
+        responseBody.put("status", 403);
+        responseBody.put("message", e.getMessage());
+        responseBody.put("timestamp", LocalDateTime.now());
+        return responseBody;
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public HashMap<String, Object> handleResourceConflictExceptions(ResourceConflictException e) {
+        HashMap<String, Object> responseBody = new HashMap<>();
+        responseBody.put("status", 409);
+        responseBody.put("message", e.getMessage());
+        responseBody.put("timestamp", LocalDateTime.now());
+        return responseBody;
     }
 }
