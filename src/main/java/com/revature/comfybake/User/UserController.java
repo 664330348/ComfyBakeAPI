@@ -61,6 +61,17 @@ public class UserController {
         return principal;
     }
 
+    //Authenticate
+    @CrossOrigin(exposedHeaders = "authorization")
+    @GetMapping(produces = "application/json")
+    public Principal authenticate(HttpServletRequest request) {
+        Principal principal = tokenService.extractRequesterDetails(request.getHeader("Authorization"));
+        if(principal == null){
+            throw new AuthenticationException();
+        }
+        return principal;
+    }
+
     //View User Profile
     @CrossOrigin(exposedHeaders = "authorization")
     @GetMapping(value = "profile",produces = "application/json")
