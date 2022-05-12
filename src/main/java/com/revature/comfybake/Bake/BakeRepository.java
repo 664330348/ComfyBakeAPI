@@ -2,6 +2,9 @@ package com.revature.comfybake.Bake;
 
 import org.springframework.data.repository.CrudRepository;
 
-public interface BakeRepository extends CrudRepository<Bake, String> {
+import java.util.List;
 
+public interface BakeRepository extends CrudRepository<Bake, String> {
+    @Override
+    List<Bake> findAll();
 }

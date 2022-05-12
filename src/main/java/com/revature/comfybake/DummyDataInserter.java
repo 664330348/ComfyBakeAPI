@@ -59,11 +59,154 @@ public class DummyDataInserter implements CommandLineRunner{
         userRoleRepository.save(customer);
         userRoleRepository.save(baker);
 
+        //-----------baker1----------------------------------
+        UserProfile baker1Profile = new UserProfile();
+        baker1Profile.setUserProfileId(UUID.randomUUID().toString());
+        baker1Profile.setFirstname("David");
+        baker1Profile.setLastname("Furman");
+        userProfileRepository.save(baker1Profile);
 
+        UserWallet baker1Wallet = new UserWallet();
+        baker1Wallet.setWalletId(UUID.randomUUID().toString());
+        userWalletRepository.save(baker1Wallet);
+
+        OrderHistory baker1OrderHistory = new OrderHistory();
+        baker1OrderHistory.setOrderHistoryItem(UUID.randomUUID().toString());
+        orderHistoryRepository.save(baker1OrderHistory);
+
+        User baker1 = new User();
+        baker1.setUserId(UUID.randomUUID().toString());
+        baker1.setUsername("baker1baker1");
+        baker1.setPassword(BCrypt.hashpw("Revature?123", BCrypt.gensalt(10)));
+        baker1.setUserRole(baker);
+        baker1.setUserProfile(baker1Profile);
+        baker1.setUserWallet(baker1Wallet);
+        baker1.setOrderHistory(baker1OrderHistory);
+        userRepository.save(baker1);
+
+        Bake bake1 = new Bake();
+        bake1.setBakeId(UUID.randomUUID().toString());
+        bake1.setBakeName("Mini Cherry Bakewell Tarts");
+        bake1.setImage("https://www.crumbblog.com/wp-content/uploads/2012/12/xmasjamtarts_verticalsm.jpg");
+        bake1.setDescribed("A British classic goes bite-sized in these adorable mini tarts filled with jam and frangipane and covered with a snowy white icing.");
+        bake1.setPrice(3.99);
+        bake1.setQuantity(99);
+        bake1.setRecipe("all-purpose flour, cold butter, egg yolks");
+        bake1.setUserProfile(baker1Profile);
+        bakeRepository.save(bake1);
+
+        Bake bake2 = new Bake();
+        bake2.setBakeId(UUID.randomUUID().toString());
+        bake2.setBakeName("Maple Sugar Scrolls");
+        bake2.setImage("https://c1.staticflickr.com/5/4264/35392510042_71593c4592.jpg");
+        bake2.setDescribed("These soft, fluffy buns swap out the usual cinnamon for the delicate sweetness of maple sugar.");
+        bake2.setPrice(6.99);
+        bake2.setQuantity(99);
+        bake2.setRecipe("milk, eggs, maple sugar, vanilla extract");
+        bake2.setUserProfile(baker1Profile);
+        bakeRepository.save(bake2);
+
+        Bake bake3 = new Bake();
+        bake3.setBakeId(UUID.randomUUID().toString());
+        bake3.setBakeName("Blood Orange Canneles");
+        bake3.setImage("https://c1.staticflickr.com/9/8791/17270953355_3b4882da06.jpg");
+        bake3.setDescribed("This twist on the traditional French cannelé gets its sweet, citrusy flavour from a combination of blood orange zest and orange liqueur.");
+        bake3.setPrice(1.33);
+        bake3.setQuantity(199);
+        bake3.setRecipe("whole milk, egg yolk, blood orange, unsalted butter");
+        bake3.setUserProfile(baker1Profile);
+        bakeRepository.save(bake3);
+
+        Bake bake4 = new Bake();
+        bake4.setBakeId(UUID.randomUUID().toString());
+        bake4.setBakeName("Peanut Butter Nanaimo Bars");
+        bake4.setImage("https://www.justsotasty.com/wp-content/uploads/2020/10/Peanut-Butter-Nanaimo-Bars-7-500x375.jpg");
+        bake4.setDescribed("The classic Nanaimo bar gets an upgrade with a sweet, smooth peanut butter filling.");
+        bake4.setPrice(4.19);
+        bake4.setQuantity(99);
+        bake4.setRecipe("sugar, cocoa, chocolate wafer crumbs, graham cracker crumbs");
+        bake4.setUserProfile(baker1Profile);
+        bakeRepository.save(bake4);
+
+        Bake bake5 = new Bake();
+        bake5.setBakeId(UUID.randomUUID().toString());
+        bake5.setBakeName("Fresh Raspberry Custard Tarts");
+        bake5.setImage("https://img.taste.com.au/VvYgP92t/taste/2016/11/raspberry-custard-tarts-103738-1.jpeg");
+        bake5.setDescribed("These elegant little tarts pair a buttery shortcrust pastry base with a buttermilk custard filling.");
+        bake5.setPrice(3.56);
+        bake5.setQuantity(99);
+        bake5.setRecipe("all-purpose flour, eggs, fresh raspberries, whipping cream");
+        bake5.setUserProfile(baker1Profile);
+        bakeRepository.save(bake5);
+        //---------------------------------------------------
+
+
+        //-----------baker2----------------------------------
+        UserProfile baker2Profile = new UserProfile();
+        baker2Profile.setUserProfileId(UUID.randomUUID().toString());
+        baker2Profile.setFirstname("Mary");
+        baker2Profile.setLastname("Walker");
+        userProfileRepository.save(baker2Profile);
+
+        UserWallet baker2Wallet = new UserWallet();
+        baker2Wallet.setWalletId(UUID.randomUUID().toString());
+        userWalletRepository.save(baker2Wallet);
+
+        OrderHistory baker2OrderHistory = new OrderHistory();
+        baker2OrderHistory.setOrderHistoryItem(UUID.randomUUID().toString());
+        orderHistoryRepository.save(baker2OrderHistory);
+
+        User baker2 = new User();
+        baker2.setUserId(UUID.randomUUID().toString());
+        baker2.setUsername("baker2baker2");
+        baker2.setPassword(BCrypt.hashpw("Revature?123", BCrypt.gensalt(10)));
+        baker2.setUserRole(baker);
+        baker2.setUserProfile(baker2Profile);
+        baker2.setUserWallet(baker2Wallet);
+        baker2.setOrderHistory(baker2OrderHistory);
+        userRepository.save(baker2);
+
+        Bake bake6 = new Bake();
+        bake6.setBakeId(UUID.randomUUID().toString());
+        bake6.setBakeName("Peanut Butter and Jelly Thumbprints");
+        bake6.setImage("https://bakeorbreak.com/wp-content/uploads/2012/06/pbjcks1kR2.jpg");
+        bake6.setDescribed("These pretty little thumbprint cookies pack all of the goodness of an old-school PB&J sandwich.");
+        bake6.setPrice(2.99);
+        bake6.setQuantity(99);
+        bake6.setRecipe("baking soda, baking powder, eggs, creamy peanut butter, grape jelly");
+        bake6.setUserProfile(baker2Profile);
+        bakeRepository.save(bake6);
+
+        Bake bake7 = new Bake();
+        bake7.setBakeId(UUID.randomUUID().toString());
+        bake7.setBakeName("Savoury Cheddar Coins");
+        bake7.setImage("https://img.apmcdn.org/e20d5a3b7b2826ab25839452412073dfe41a1a03/uncropped/079faf-splendid-table-sfs-cheddar-cheese-coins-12-lede.jpg");
+        bake7.setDescribed("This cheesy twist on the classic icebox cookie is perfect for the holidays.");
+        bake7.setPrice(0.69);
+        bake7.setQuantity(199);
+        bake7.setRecipe("whole milk, egg yolk, blood orange, unsalted butter");
+        bake7.setUserProfile(baker2Profile);
+        bakeRepository.save(bake7);
+
+        Bake bake8 = new Bake();
+        bake8.setBakeId(UUID.randomUUID().toString());
+        bake8.setBakeName("Pumpkin Cheesecake Swirl Brownies");
+        bake8.setImage("https://chocolatewithgrace.com/wp-content/uploads/2018/09/CWG-Pumpkin-Cheesecake-Brownies-7-1-of-1.jpg");
+        bake8.setDescribed("It's tough having to choose between fudgey brownies and tangy pumpkin cheesecake.");
+        bake8.setPrice(3.99);
+        bake8.setQuantity(99);
+        bake8.setRecipe("unsweetened chocolate, eggs, pumpkin puree, brown sugar");
+        bake8.setUserProfile(baker2Profile);
+        bakeRepository.save(bake8);
+        //--------------------------------------------------
+
+
+
+        //-----------customer1-----------------------------
         UserProfile user1Profile = new UserProfile();
         user1Profile.setUserProfileId(UUID.randomUUID().toString());
-        user1Profile.setFirstname("FName");
-        user1Profile.setLastname("LName");
+        user1Profile.setFirstname("Luck");
+        user1Profile.setLastname("Chen");
         userProfileRepository.save(user1Profile);
 
         UserWallet userWallet1 = new UserWallet();
@@ -85,36 +228,14 @@ public class DummyDataInserter implements CommandLineRunner{
         user1.setOrderHistory(orderHistory);
         userRepository.save(user1);
 
-        Bake bake1 = new Bake();
-        bake1.setBakeId(UUID.randomUUID().toString());
-        bake1.setBakeName("bake1");
-        bake1.setImage("imageUrl");
-        bake1.setDescribed("described");
-        bake1.setPrice(18.99);
-        bake1.setQuantity(5);
-        bake1.setRecipe("recipe");
-        bake1.setUserProfile(user1Profile);
-        bakeRepository.save(bake1);
-
-        Bake bake2 = new Bake();
-        bake2.setBakeId(UUID.randomUUID().toString());
-        bake2.setBakeName("bake2");
-        bake2.setImage("imageUrl2");
-        bake2.setDescribed("described2");
-        bake2.setPrice(16.99);
-        bake2.setQuantity(9);
-        bake2.setRecipe("recipe2");
-        bake2.setUserProfile(user1Profile);
-        bakeRepository.save(bake2);
-
         String orderGroupId = UUID.randomUUID().toString();
         OrderItem orderItem = new OrderItem();
         orderItem.setOrderItemId(UUID.randomUUID().toString());
-        orderItem.setItemName("bake1");
-        orderItem.setItemImage("imageUrl1");
-        orderItem.setItemPrice(18.99);
+        orderItem.setItemName("Fresh Raspberry Custard Tarts");
+        orderItem.setItemImage("https://img.taste.com.au/VvYgP92t/taste/2016/11/raspberry-custard-tarts-103738-1.jpeg");
+        orderItem.setItemPrice(3.56);
         orderItem.setQuantity(3);
-        orderItem.setTotalCost(56.97);
+        orderItem.setTotalCost(10.68);
         orderItem.setCompletedTime(LocalDateTime.now());
         orderItem.setOrderHistory(orderHistory);
         orderItem.setGroupId(orderGroupId);
