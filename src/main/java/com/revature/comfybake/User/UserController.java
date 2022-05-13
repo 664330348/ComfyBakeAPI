@@ -79,7 +79,7 @@ public class UserController {
         Principal requester = tokenService.extractRequesterDetails(request.getHeader("Authorization"));
         HashMap<String, Object> response = new HashMap<String, Object>();
         ProfileResponse profileResponse = userService.viewUserProfile(requester.getUserId());
-        response.put("profileResponse: ", profileResponse);
+        response.put("profileResponse", profileResponse);
         return response;
     }
 
@@ -102,7 +102,7 @@ public class UserController {
         Principal requester = tokenService.extractRequesterDetails(request.getHeader("Authorization"));
         HashMap<String, Object> response = new HashMap<String, Object>();
         double walletBalance = userService.viewWallet(requester.getUserId());
-        response.put("wallet balance: ", walletBalance);
+        response.put("WalletBalance", walletBalance);
         return response;
     }
 

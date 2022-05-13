@@ -44,7 +44,7 @@ public class UserService {
             throw new InvalidRequestException("Invalid Username!");
         }else if (!isPasswordValid(newUserRequest.getPassword())){
             throw new InvalidRequestException("Invalid Password!");
-        }else if (newUserRequest.getEmail()!=null && isEmailValid(newUserRequest.getEmail())){
+        }else if (newUserRequest.getEmail()!=null && !isEmailValid(newUserRequest.getEmail())){
             throw new InvalidRequestException("Invalid Email!");
         } else if(!isUsernameAvailable(newUserRequest.getUsername())){
             throw new ResourceConflictException("The username are already taken by other users");
@@ -128,10 +128,14 @@ public class UserService {
         if(updateProfileRequest.getLastname() != null){
             userProfile.setLastname(updateProfileRequest.getLastname());
         }
-        if(updateProfileRequest.getEmail() != null){
+
+        if(updateProfileRequest.getEmail() != null && updateProfileRequest.getEmail().length()>0){
+            if (!isEmailValid(updateProfileRequest.getEmail())) {
+                throw new InvalidRequestException("Invalid Email!");
+            }
             userProfile.setEmail(updateProfileRequest.getEmail());
         }
-        if(updateProfileRequest.getPhoto() != null){
+        if(updateProfileRequest.getPhoto() != null && updateProfileRequest.getPhoto().length()>0){
             userProfile.setPhoto(updateProfileRequest.getPhoto());
         }
         userProfileRepository.save(userProfile);
