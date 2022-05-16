@@ -240,6 +240,31 @@ public class DummyDataInserter implements CommandLineRunner{
         orderItem.setOrderHistory(orderHistory);
         orderItem.setGroupId(orderGroupId);
         orderItemRepository.save(orderItem);
+
+        OrderItem orderItem2 = new OrderItem();
+        orderItem2.setOrderItemId(UUID.randomUUID().toString());
+        orderItem2.setItemName("Pumpkin Cheesecake Swirl Brownies");
+        orderItem2.setItemImage("https://chocolatewithgrace.com/wp-content/uploads/2018/09/CWG-Pumpkin-Cheesecake-Brownies-7-1-of-1.jpg");
+        orderItem2.setItemPrice(3.99);
+        orderItem2.setQuantity(5);
+        orderItem2.setTotalCost(19.95);
+        orderItem2.setCompletedTime(LocalDateTime.now());
+        orderItem2.setOrderHistory(orderHistory);
+        orderItem2.setGroupId(orderGroupId);
+        orderItemRepository.save(orderItem2);
+
+        String orderGroupId2 = UUID.randomUUID().toString();
+        OrderItem orderItem3 = new OrderItem();
+        orderItem3.setOrderItemId(UUID.randomUUID().toString());
+        orderItem3.setItemName("Savoury Cheddar Coins");
+        orderItem3.setItemImage("https://img.apmcdn.org/e20d5a3b7b2826ab25839452412073dfe41a1a03/uncropped/079faf-splendid-table-sfs-cheddar-cheese-coins-12-lede.jpg");
+        orderItem3.setItemPrice(0.69);
+        orderItem3.setQuantity(10);
+        orderItem3.setTotalCost(6.9);
+        orderItem3.setCompletedTime(LocalDateTime.now());
+        orderItem3.setOrderHistory(orderHistory);
+        orderItem3.setGroupId(orderGroupId2);
+        orderItemRepository.save(orderItem3);
     }
 
 }
