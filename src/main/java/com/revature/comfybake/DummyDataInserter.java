@@ -10,6 +10,8 @@ import com.revature.comfybake.User.Profile.UserProfile;
 import com.revature.comfybake.User.Profile.UserProfileRepository;
 import com.revature.comfybake.User.Role.UserRole;
 import com.revature.comfybake.User.Role.UserRoleRepository;
+import com.revature.comfybake.User.ShoppingCart.ShoppingList;
+import com.revature.comfybake.User.ShoppingCart.ShoppingListRepository;
 import com.revature.comfybake.User.User;
 import com.revature.comfybake.User.UserRepository;
 import com.revature.comfybake.User.Wallet.UserWallet;
@@ -32,9 +34,10 @@ public class DummyDataInserter implements CommandLineRunner{
     private final UserWalletRepository userWalletRepository;
     private final OrderHistoryRepository orderHistoryRepository;
     private final OrderItemRepository orderItemRepository;
+    private final ShoppingListRepository shoppingListRepository;
 
     @Autowired
-    public DummyDataInserter(UserRepository userRepository, UserRoleRepository userRoleRepository, UserProfileRepository userProfileRepository, BakeRepository bakeRepository, UserWalletRepository userWalletRepository, OrderHistoryRepository orderHistoryRepository, OrderItemRepository orderItemRepository) {
+    public DummyDataInserter(UserRepository userRepository, UserRoleRepository userRoleRepository, UserProfileRepository userProfileRepository, BakeRepository bakeRepository, UserWalletRepository userWalletRepository, OrderHistoryRepository orderHistoryRepository, OrderItemRepository orderItemRepository, ShoppingListRepository shoppingListRepository) {
         this.userRepository = userRepository;
         this.userRoleRepository = userRoleRepository;
         this.userProfileRepository = userProfileRepository;
@@ -42,6 +45,7 @@ public class DummyDataInserter implements CommandLineRunner{
         this.userWalletRepository = userWalletRepository;
         this.orderHistoryRepository = orderHistoryRepository;
         this.orderItemRepository = orderItemRepository;
+        this.shoppingListRepository = shoppingListRepository;
     }
 
     @Override
@@ -74,6 +78,10 @@ public class DummyDataInserter implements CommandLineRunner{
         baker1OrderHistory.setOrderHistoryItem(UUID.randomUUID().toString());
         orderHistoryRepository.save(baker1OrderHistory);
 
+        ShoppingList baker1ShoppingList = new ShoppingList();
+        baker1ShoppingList.setShoppingListId(UUID.randomUUID().toString());
+        shoppingListRepository.save(baker1ShoppingList);
+
         User baker1 = new User();
         baker1.setUserId(UUID.randomUUID().toString());
         baker1.setUsername("baker1baker1");
@@ -82,6 +90,7 @@ public class DummyDataInserter implements CommandLineRunner{
         baker1.setUserProfile(baker1Profile);
         baker1.setUserWallet(baker1Wallet);
         baker1.setOrderHistory(baker1OrderHistory);
+        baker1.setShoppingList(baker1ShoppingList);
         userRepository.save(baker1);
 
         Bake bake1 = new Bake();
@@ -156,6 +165,10 @@ public class DummyDataInserter implements CommandLineRunner{
         baker2OrderHistory.setOrderHistoryItem(UUID.randomUUID().toString());
         orderHistoryRepository.save(baker2OrderHistory);
 
+        ShoppingList baker2ShoppingList = new ShoppingList();
+        baker2ShoppingList.setShoppingListId(UUID.randomUUID().toString());
+        shoppingListRepository.save(baker2ShoppingList);
+
         User baker2 = new User();
         baker2.setUserId(UUID.randomUUID().toString());
         baker2.setUsername("baker2baker2");
@@ -164,6 +177,7 @@ public class DummyDataInserter implements CommandLineRunner{
         baker2.setUserProfile(baker2Profile);
         baker2.setUserWallet(baker2Wallet);
         baker2.setOrderHistory(baker2OrderHistory);
+        baker2.setShoppingList(baker2ShoppingList);
         userRepository.save(baker2);
 
         Bake bake6 = new Bake();
@@ -218,6 +232,10 @@ public class DummyDataInserter implements CommandLineRunner{
         orderHistory.setOrderHistoryItem(orderHistoryId);
         orderHistoryRepository.save(orderHistory);
 
+        ShoppingList user1ShoppingList = new ShoppingList();
+        user1ShoppingList.setShoppingListId(UUID.randomUUID().toString());
+        shoppingListRepository.save(user1ShoppingList);
+
         User user1 = new User();
         user1.setUserId(UUID.randomUUID().toString());
         user1.setUsername("user1user1");
@@ -226,6 +244,7 @@ public class DummyDataInserter implements CommandLineRunner{
         user1.setUserProfile(user1Profile);
         user1.setUserWallet(userWallet1);
         user1.setOrderHistory(orderHistory);
+        user1.setShoppingList(user1ShoppingList);
         userRepository.save(user1);
 
         String orderGroupId = UUID.randomUUID().toString();

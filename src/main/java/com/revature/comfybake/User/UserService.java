@@ -6,6 +6,8 @@ import com.revature.comfybake.User.Profile.UserProfile;
 import com.revature.comfybake.User.Profile.UserProfileRepository;
 import com.revature.comfybake.User.Role.UserRole;
 import com.revature.comfybake.User.Role.UserRoleRepository;
+import com.revature.comfybake.User.ShoppingCart.ShoppingList;
+import com.revature.comfybake.User.ShoppingCart.ShoppingListRepository;
 import com.revature.comfybake.User.Wallet.UserWallet;
 import com.revature.comfybake.User.Wallet.UserWalletRepository;
 import com.revature.comfybake.User.dtos.LoginRequest;
@@ -28,6 +30,7 @@ public class UserService {
     private  UserProfileRepository userProfileRepository;
     private  UserWalletRepository userWalletRepository;
     private  OrderHistoryRepository orderHistoryRepository;
+    private  ShoppingListRepository shoppingListRepository;
 
     @Autowired
     public UserService(UserRepository userRepository, UserRoleRepository userRoleRepository, UserProfileRepository userProfileRepository, UserWalletRepository userWalletRepository, OrderHistoryRepository orderHistoryRepository) {
@@ -44,7 +47,7 @@ public class UserService {
             throw new InvalidRequestException("Invalid Username!");
         }else if (!isPasswordValid(newUserRequest.getPassword())){
             throw new InvalidRequestException("Invalid Password!");
-        }else if (newUserRequest.getEmail()!=null && !isEmailValid(newUserRequest.getEmail())){
+        }else if (newUserRequest.getEmail().length()>0 && !isEmailValid(newUserRequest.getEmail())){
             throw new InvalidRequestException("Invalid Email!");
         } else if(!isUsernameAvailable(newUserRequest.getUsername())){
             throw new ResourceConflictException("The username are already taken by other users");
@@ -68,6 +71,10 @@ public class UserService {
         orderHistory.setOrderHistoryItem(UUID.randomUUID().toString());
         orderHistoryRepository.save(orderHistory);
 
+        ShoppingList shoppingList = new ShoppingList();
+        shoppingList.setShoppingListId(UUID.randomUUID().toString());
+        shoppingListRepository.save(shoppingList);
+
         User newUser = new User();
         newUser.setUserId(UUID.randomUUID().toString());
         newUser.setUsername(newUserRequest.getUsername());
@@ -76,6 +83,7 @@ public class UserService {
         newUser.setUserProfile(userProfile);
         newUser.setUserWallet(userWallet);
         newUser.setOrderHistory(orderHistory);
+        newUser.setShoppingList(shoppingList);
         userRepository.save(newUser);
 
         return  newUser;

@@ -3,6 +3,7 @@ package com.revature.comfybake.User;
 import com.revature.comfybake.User.Orders.OrderHistory;
 import com.revature.comfybake.User.Profile.UserProfile;
 import com.revature.comfybake.User.Role.UserRole;
+import com.revature.comfybake.User.ShoppingCart.ShoppingList;
 import com.revature.comfybake.User.Wallet.UserWallet;
 
 import javax.persistence.*;
@@ -35,6 +36,10 @@ public class User {
     @OneToOne
     @JoinColumn(name="order_history_id", nullable = false, unique = true)
     private OrderHistory orderHistory;
+
+    @OneToOne
+    @JoinColumn(name="shopping_list_id", nullable = false, unique = true)
+    private ShoppingList shoppingList;
 
     public User() {
         super();
@@ -94,5 +99,13 @@ public class User {
 
     public void setOrderHistory(OrderHistory orderHistory) {
         this.orderHistory = orderHistory;
+    }
+
+    public ShoppingList getShoppingList() {
+        return shoppingList;
+    }
+
+    public void setShoppingList(ShoppingList shoppingList) {
+        this.shoppingList = shoppingList;
     }
 }

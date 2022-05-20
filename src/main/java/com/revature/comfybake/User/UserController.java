@@ -2,10 +2,7 @@ package com.revature.comfybake.User;
 
 import com.revature.comfybake.Principal;
 import com.revature.comfybake.Token.TokenService;
-import com.revature.comfybake.User.dtos.LoginRequest;
-import com.revature.comfybake.User.dtos.NewUserRequest;
-import com.revature.comfybake.User.dtos.ProfileResponse;
-import com.revature.comfybake.User.dtos.UpdateProfileRequest;
+import com.revature.comfybake.User.dtos.*;
 import com.revature.comfybake.exceptions.AuthenticationException;
 import com.revature.comfybake.exceptions.ForbiddenException;
 import com.revature.comfybake.exceptions.InvalidRequestException;
@@ -103,6 +100,18 @@ public class UserController {
         HashMap<String, Object> response = new HashMap<String, Object>();
         double walletBalance = userService.viewWallet(requester.getUserId());
         response.put("WalletBalance", walletBalance);
+        return response;
+    }
+
+    //Add Item to the Shopping Cart
+    @CrossOrigin(exposedHeaders = "authorization")
+    @PostMapping(value="shoppingCart", produces = "application/json", consumes = "application/json")
+    public HashMap<String, Object> addItemToShoppingCart(@RequestBody ShoppingItemRequest shoppingItemRequest, HttpServletRequest request){
+        Principal requester = tokenService.extractRequesterDetails(request.getHeader("Authorization"));
+        HashMap<String, Object> response = new HashMap<String, Object>();
+
+
+        response.put("status: ", "update");
         return response;
     }
 
